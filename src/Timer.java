@@ -4,9 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Timer extends JFrame implements ActionListener {
-    private JButton speedometer, start, circleTen, circleFifteen, circleThirty;
+    private JButton speedometer, start, circleTen, circleFifteen, circleThirty, timerNow;
     private JLabel scrollTimer, hLab, mLab, sLab;
     private JSpinner hourSpinner, minSpinner, secSpinner;
+
 
     Timer() {
         setSize(300, 380);
@@ -19,10 +20,25 @@ public class Timer extends JFrame implements ActionListener {
 
     private void ui() {
         speedometer = new JButton("Speedometer");
-        speedometer.setFont(new Font("Arial", Font.BOLD, 10));
-        speedometer.setBounds(95, 5, 110, 30);
+        speedometer.setFont(new Font("Arial", Font.BOLD, 14));
+        speedometer.setBounds(40, 5, 130, 30);
         speedometer.addActionListener(this);
+        speedometer.setBorderPainted(false);
+        speedometer.setFocusPainted(false);
+        speedometer.setForeground(Color.gray);
+        speedometer.setBackground( new Color(237, 237, 237));
         add(speedometer);
+
+        timerNow = new JButton("<html><u>Timer</u></html>");
+        timerNow.setFont(new Font("Arial", Font.BOLD, 14));
+        timerNow.setBounds(170, 5, 60, 30);
+        timerNow.addActionListener(this);
+        timerNow.setBorderPainted(false);
+        timerNow.setFocusPainted(false);
+        timerNow.setForeground(Color.black);
+        timerNow.setBackground(new Color(241, 239, 239));
+        add(timerNow);
+
 
         start = new RoundedButton("Start");
         start.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -121,8 +137,9 @@ public class Timer extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == start) {
-         new TimerCountdown(scrollTimer, hourSpinner, minSpinner, secSpinner);
-         dispose();
+            dispose();
+            TimerCountdown countdownTimer = new TimerCountdown(scrollTimer, hourSpinner, minSpinner, secSpinner);
+            countdownTimer.startCountdown();
         }
 
         if (e.getSource() == circleTen) {

@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Speedometer extends JFrame implements ActionListener {
-    private JButton taimer, start, interval;
+    private JButton taimer, start, interval, speedometerNow;
     private JLabel speed, speedInterval;
     private SpeedometerThread speedometerThread;
 
@@ -20,10 +20,24 @@ public class Speedometer extends JFrame implements ActionListener {
     }
 
     private void ui() {
+        speedometerNow = new JButton("<html><u>Speedometer</u></html>");
+        speedometerNow.setFont(new Font("Arial", Font.BOLD, 14));
+        speedometerNow.setBounds(40, 5, 130, 30);
+        speedometerNow.addActionListener(this);
+        speedometerNow.setBorderPainted(false);
+        speedometerNow.setFocusPainted(false);
+        speedometerNow.setForeground(Color.black);
+        speedometerNow.setBackground( new Color(237, 237, 237));
+        add(speedometerNow);
+
         taimer = new JButton("Timer");
-        taimer.setFont(new Font("Arial", Font.BOLD, 10));
-        taimer.setBounds(105, 5, 90, 30);
+        taimer.setFont(new Font("Arial", Font.BOLD, 14));
+        taimer.setBounds(170, 5, 100, 30);
         taimer.addActionListener(this);
+        taimer.setBorderPainted(false);
+        taimer.setFocusPainted(false);
+        taimer.setForeground(Color.gray);
+        taimer.setBackground(new Color(241, 239, 239));
         add(taimer);
 
         start = new RoundedButton("Start");
