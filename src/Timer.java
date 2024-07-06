@@ -4,8 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Timer extends JFrame implements ActionListener {
-    private JButton speedometer, start, circleTen, circleFifteen, circleThirty, scrollTimer;
-    private JLabel hourLabel, minLabel, secLabel;
+    private JButton speedometer, start, circleTen, circleFifteen, circleThirty;
+    private JLabel scrollTimer, hLab, mLab, sLab;
+    private JSpinner hourSpinner, minSpinner, secSpinner;
 
     Timer() {
         setSize(300, 380);
@@ -63,33 +64,53 @@ public class Timer extends JFrame implements ActionListener {
         circleThirty.setFocusPainted(false);
         add(circleThirty);
 
-        hourLabel = new JLabel("h.");
-        hourLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        hourLabel.setBounds(108, 70, 20, 40);
-        hourLabel.setForeground(Color.gray);
-        add(hourLabel);
+        hourSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
+        hourSpinner.setBounds(47, 130, 50, 30);
+        add(hourSpinner);
 
-        minLabel = new JLabel("min.");
-        minLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        minLabel.setBounds(150, 70, 35, 40);
-        minLabel.setForeground(Color.gray);
-        add(minLabel);
+        minSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 59, 1));
+        minSpinner.setBounds(125, 130, 50, 30);
+        add(minSpinner);
 
-        secLabel = new JLabel("sec.");
-        secLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        secLabel.setBounds(210, 70, 35, 40);
-        secLabel.setForeground(Color.gray);
-        add(secLabel);
+        secSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 59, 1));
+        secSpinner.setBounds(200, 130, 50, 30);
+        add(secSpinner);
 
-        scrollTimer = new JButton("00:00:00");
-        scrollTimer.setFont(new Font("Arial", Font.PLAIN, 30));
-        scrollTimer.setForeground(Color.WHITE);
-        scrollTimer.setBackground(new Color(243, 240, 240));
-        scrollTimer.setBounds(50, 100, 200, 80);
-        scrollTimer.addActionListener(this);
-        scrollTimer.setBorderPainted(false);
-        scrollTimer.setFocusPainted(false);
+        scrollTimer = new JLabel("00 : 00 : 00");
+        scrollTimer.setFont(new Font("Arial", Font.BOLD, 40));
+        scrollTimer.setBounds(23, 80, 250, 50);
+        scrollTimer.setHorizontalAlignment(JLabel.CENTER);
+        scrollTimer.setVerticalAlignment(JLabel.CENTER);
+        scrollTimer.setForeground(Color.BLACK);
+        scrollTimer.setOpaque(true);
         add(scrollTimer);
+
+        hourSpinner.addChangeListener(e -> updateScrollTimer());
+        minSpinner.addChangeListener(e -> updateScrollTimer());
+        secSpinner.addChangeListener(e -> updateScrollTimer());
+
+        hLab = new JLabel("h.");
+        hLab.setFont(new Font("Arial", Font.PLAIN, 12));
+        hLab.setBounds(65, 50, 25, 30);
+        add(hLab);
+
+        mLab = new JLabel("m.");
+        mLab.setFont(new Font("Arial", Font.PLAIN, 12));
+        mLab.setBounds(145, 50, 25, 30);
+        add(mLab);
+
+        sLab = new JLabel("s.");
+        sLab.setFont(new Font("Arial", Font.PLAIN, 12));
+        sLab.setBounds(220, 50, 25, 30);
+        add(sLab);
+
+    }
+
+    private void updateScrollTimer() {
+        int hours = (Integer) hourSpinner.getValue();
+        int minutes = (Integer) minSpinner.getValue();
+        int seconds = (Integer) secSpinner.getValue();
+        scrollTimer.setText(String.format("%02d : %02d : %02d", hours, minutes, seconds));
     }
 
     @Override
@@ -98,5 +119,31 @@ public class Timer extends JFrame implements ActionListener {
             new Speedometer();
             dispose();
         }
+
+        if (e.getSource() == start) {
+         new TimerCountdown(scrollTimer, hourSpinner, minSpinner, secSpinner);
+         dispose();
+        }
+
+        if (e.getSource() == circleTen) {
+            hourSpinner.setValue(0);
+            minSpinner.setValue(10);
+            secSpinner.setValue(0);
+        }
+
+        if (e.getSource() == circleFifteen) {
+            hourSpinner.setValue(0);
+            minSpinner.setValue(15);
+            secSpinner.setValue(0);
+        }
+
+        if (e.getSource() == circleThirty) {
+            hourSpinner.setValue(0);
+            minSpinner.setValue(30);
+            secSpinner.setValue(0);
+        }
     }
+
 }
+
+

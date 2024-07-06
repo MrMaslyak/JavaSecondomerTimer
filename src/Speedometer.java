@@ -47,7 +47,7 @@ public class Speedometer extends JFrame implements ActionListener {
         add(interval);
 
         speed = new JLabel("00:00:00");
-        speed.setFont(new Font("Arial", Font.BOLD, 30));
+        speed.setFont(new Font("Arial", Font.PLAIN, 30));
         speed.setBounds(73, 100, 150, 50);
         speed.setHorizontalAlignment(JLabel.CENTER);
         speed.setVerticalAlignment(JLabel.CENTER);
