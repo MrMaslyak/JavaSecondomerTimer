@@ -83,15 +83,20 @@ public class TimerCountdown extends JFrame implements ActionListener {
     }
 
     public void startCountdown(){
-        int hours = (Integer) hourSpinner.getValue();
-        int minutes = (Integer) minSpinner.getValue();
-        int seconds = (Integer) secSpinner.getValue();
-        int totalSeconds = hours * 3600 + minutes * 60 + seconds;
-        if (totalSeconds > 0) {
-            timerThread = new TimerThread(scrollTimerCoutdown, hours, minutes, seconds);
-            timerThread.startCountdownThread();
-            timerThread.start();
+        try {
+            int hours = (Integer) hourSpinner.getValue();
+            int minutes = (Integer) minSpinner.getValue();
+            int seconds = (Integer) secSpinner.getValue();
+            int totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            if (totalSeconds > 0) {
+                timerThread = new TimerThread(scrollTimerCoutdown, hours, minutes, seconds);
+                timerThread.startCountdownThread();
+                timerThread.start();
+            }
+        }catch (IllegalThreadStateException ex){
+            System.out.println("Thread start again");
         }
+
     }
 
 
