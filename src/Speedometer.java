@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Speedometer extends JFrame implements ActionListener {
-    private JButton taimer, start, interval, speedometerNow;
+    private JButton taimer, start, interval, speedometerNow, alarm;
     private JLabel speed, speedInterval;
     private SpeedometerThread speedometerThread;
 
@@ -20,9 +20,19 @@ public class Speedometer extends JFrame implements ActionListener {
     }
 
     private void ui() {
+        alarm = new JButton("Alarm");
+        alarm.setFont(new Font("Arial", Font.BOLD, 14));
+        alarm.setBounds(0, 5, 90, 30);
+        alarm.addActionListener(this);
+        alarm.setBorderPainted(false);
+        alarm.setFocusPainted(false);
+        alarm.setForeground(Color.gray);
+        alarm.setBackground(new Color(241, 239, 239));
+        add(alarm);
+
         speedometerNow = new JButton("<html><u>Speedometer</u></html>");
         speedometerNow.setFont(new Font("Arial", Font.BOLD, 14));
-        speedometerNow.setBounds(40, 5, 130, 30);
+        speedometerNow.setBounds(75, 5, 130, 30);
         speedometerNow.addActionListener(this);
         speedometerNow.setBorderPainted(false);
         speedometerNow.setFocusPainted(false);
@@ -32,7 +42,7 @@ public class Speedometer extends JFrame implements ActionListener {
 
         taimer = new JButton("Timer");
         taimer.setFont(new Font("Arial", Font.BOLD, 14));
-        taimer.setBounds(170, 5, 100, 30);
+        taimer.setBounds(190, 5, 90, 30);
         taimer.addActionListener(this);
         taimer.setBorderPainted(false);
         taimer.setFocusPainted(false);
@@ -74,6 +84,11 @@ public class Speedometer extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == taimer) {
             new Timer();
+            dispose();
+        }
+
+        if (e.getSource() == alarm) {
+            new Alarm();
             dispose();
         }
         if (e.getSource() == start) {

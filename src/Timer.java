@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Timer extends JFrame implements ActionListener {
-    private JButton speedometer, start, circleTen, circleFifteen, circleThirty, timerNow;
+    private JButton speedometer, start, circleTen, circleFifteen, circleThirty, timerNow, alarm;
     private JLabel scrollTimer, hLab, mLab, sLab;
     private JSpinner hourSpinner, minSpinner, secSpinner;
 
@@ -19,9 +19,20 @@ public class Timer extends JFrame implements ActionListener {
     }
 
     private void ui() {
+
+        alarm = new JButton("Alarm");
+        alarm.setFont(new Font("Arial", Font.BOLD, 14));
+        alarm.setBounds(0, 5, 90, 30);
+        alarm.addActionListener(this);
+        alarm.setBorderPainted(false);
+        alarm.setFocusPainted(false);
+        alarm.setForeground(Color.gray);
+        alarm.setBackground(new Color(241, 239, 239));
+        add(alarm);
+
         speedometer = new JButton("Speedometer");
         speedometer.setFont(new Font("Arial", Font.BOLD, 14));
-        speedometer.setBounds(40, 5, 130, 30);
+        speedometer.setBounds(75, 5, 130, 30);
         speedometer.addActionListener(this);
         speedometer.setBorderPainted(false);
         speedometer.setFocusPainted(false);
@@ -31,7 +42,7 @@ public class Timer extends JFrame implements ActionListener {
 
         timerNow = new JButton("<html><u>Timer</u></html>");
         timerNow.setFont(new Font("Arial", Font.BOLD, 14));
-        timerNow.setBounds(170, 5, 60, 30);
+        timerNow.setBounds(190, 5, 90, 30);
         timerNow.addActionListener(this);
         timerNow.setBorderPainted(false);
         timerNow.setFocusPainted(false);
@@ -131,6 +142,12 @@ public class Timer extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == alarm) {
+            new Alarm();
+            dispose();
+        }
+
         if (e.getSource() == speedometer) {
             new Speedometer();
             dispose();
