@@ -4,6 +4,7 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class AlarmCreateNew extends JFrame implements ActionListener {
     private JLabel timeAlarm, daysAlarm, volumeAlarmLabel, alarmBixby, vibrationLabel, basicCall, pauseLabel, descriptionPause;
@@ -13,9 +14,12 @@ public class AlarmCreateNew extends JFrame implements ActionListener {
     private JCheckBox m, t, w, th, f, sat, sun;
     private JTextField nameAlarm;
     private JButton save, cancel;
+    private Alarm alarmMain;
 
-    AlarmCreateNew(JPanel panelForAlarm) {
+
+    AlarmCreateNew(JPanel panelForAlarm, Alarm alarmMain) {
         this.panelForAlarm = panelForAlarm;
+        this.alarmMain = alarmMain;
         setSize(325, 525);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Create New Alarm");
@@ -220,40 +224,49 @@ public class AlarmCreateNew extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == save) {
-            if (!nameAlarm.getText().isEmpty() ) {
+            int hour = (int) hourSpinner.getValue();
+            int minute = (int) minSpinner.getValue();
+            ArrayList<String> days = new ArrayList<>();
+            if (m.isSelected()) days.add("M");
+            if (t.isSelected()) days.add("T");
+            if (w.isSelected()) days.add("W");
+            if (th.isSelected()) days.add("TH");
+            if (f.isSelected()) days.add("F");
+            if (sat.isSelected()) days.add("SA");
+            if (sun.isSelected()) days.add("SU");
+            String name = nameAlarm.getText();
+
+            CurrentInfoAlarm newAlarm = new CurrentInfoAlarm(hour, minute, days, name);
+            alarmMain.setNewAlarm(newAlarm);
             dispose();
-            new Alarm();
-            panelForAlarm.setBackground(Color.red);
-            panelForAlarm.repaint();
-            }
-        }else if (e.getSource() == cancel) {
+            alarmMain.setVisible(true);
+        } else if (e.getSource() == cancel) {
             dispose();
             new Alarm();
         }
 
 
-
-        JCheckBox source = (JCheckBox) e.getSource();
-        String dayText = "";
-        switch (e.getActionCommand()) {
-            case "M" -> dayText = " Mn,";
-            case "T" -> dayText = " Tue,";
-            case "W" -> dayText = " Wed,";
-            case "TH" -> dayText = " Thu,";
-            case "F" -> dayText = " Fri,";
-            case "SA" -> dayText = " Sat,";
-            case "SU" -> dayText = " Sun,";
-        }
-
-        String currentText = daysAlarm.getText();
-        if (source.isSelected()) {
-            if (!currentText.contains(dayText)) {
-                daysAlarm.setText(currentText + dayText);
+        if (e.getSource() instanceof JCheckBox) {
+            JCheckBox source = (JCheckBox) e.getSource();
+            String dayText = "";
+            switch (e.getActionCommand()) {
+                case "M" -> dayText = " Mn,";
+                case "T" -> dayText = " Tue,";
+                case "W" -> dayText = " Wed,";
+                case "TH" -> dayText = " Thu,";
+                case "F" -> dayText = " Fri,";
+                case "SA" -> dayText = " Sat,";
+                case "SU" -> dayText = " Sun,";
             }
-        } else {
-            daysAlarm.setText(currentText.replace(dayText, ""));
+            String currentText = daysAlarm.getText();
+            if (source.isSelected()) {
+                if (!currentText.contains(dayText)) {
+                    daysAlarm.setText(currentText + dayText);
+                }
+            } else {
+                daysAlarm.setText(currentText.replace(dayText, ""));
+            }
         }
     }
 }
